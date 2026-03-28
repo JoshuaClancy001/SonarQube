@@ -1,31 +1,36 @@
 package edu.byu.cs.sonar;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
- * This is a class that will handle the file reading
+ * This is a class that will handle the file reading.
  */
 class CustomFileReader {
+
     /**
-     * The scanner that will read the dictionary
+     * This is the hash multiplier.
+     */
+    private static final int HASH_MULTIPLIER = 3;
+    /**
+     * The scanner that will read the dictionary.
      */
     private final String path;
 
     /**
-     * The sentence that will be constructed
+     * The sentence that will be constructed.
      */
     private String newSentence;
     /**
-     * The number of words read in by the scanner
+     * The number of words read in by the scanner.
      */
     private int count;
 
-    /**
-     * Constructor for our class
+  /**
+     * Constructor for our class.
      *
      * @param fileName the file to be read in
      */
@@ -42,13 +47,13 @@ class CustomFileReader {
     }
 
     /**
-     * This will find how many words are in the text file provided
+     * This will find how many words are in the text file provided.
      *
      * @return how many words in the file
      */
     int howManyWordsInFile() throws FileNotFoundException {
         try (Scanner s = createScanner()) {
-            while (s.hasNext()){
+            while (s.hasNext()) {
                 s.next();
                 count++;
             }
@@ -57,16 +62,16 @@ class CustomFileReader {
     }
 
     /**
-     * This will return the word at the given index in the text file
+     * This will return the word at the given index in the text file.
      *
      * @param index which number word should be taken back
      * @return correct word
      */
     String returnThatWord(final int index) throws FileNotFoundException {
-        try(Scanner s = createScanner()) {
-            String returnWord="";
-            for (int i=0; i < index; i++) {
-                returnWord=s.next();
+        try (Scanner s = createScanner()) {
+            String returnWord = "";
+            for (int i = 0; i < index; i++) {
+                returnWord = s.next();
             }
             return returnWord;
         }
@@ -76,24 +81,25 @@ class CustomFileReader {
 
     /**
      * This will search for a word that contains the same letter as the
-     * one provided in the argument and return that word
+     * one provided in the argument and return that word.
      *
-     * @param letter eventually will be the character we are looking for in the word
+     * @param letter eventually will be the character we are looking
+     *               for in the word
      */
     void findNewWord(final CharSequence letter) throws FileNotFoundException {
         try (Scanner s = createScanner()) {
-            String word=s.next();
+            String word = s.next();
 
             while (!word.contains(letter)) {
-                word=s.next();
+                word = s.next();
             }
 
-            newSentence=newSentence + word + " ";
+            newSentence = newSentence + word + " ";
         }
     }
 
     /**
-     * This is a standard getter
+     * This is a standard getter.
      *
      * @return the sentence created by the reader
      */
@@ -102,7 +108,7 @@ class CustomFileReader {
     }
 
     /**
-     * This is standard setter
+     * This is standard setter.
      *
      * @param betterSentence The new sentence for the reader
      */
@@ -112,7 +118,7 @@ class CustomFileReader {
 
     /**
      * This is a private getter since only this class will
-     * make use of it
+     * make use of it.
      *
      * @return the number of words in the dictionary
      */
@@ -121,7 +127,7 @@ class CustomFileReader {
     }
 
     /**
-     * This is another private getter
+     * This is another private getter.
      *
      * @return the number of words in the dictionary
      */
@@ -138,7 +144,7 @@ class CustomFileReader {
      */
     @Override
     public int hashCode() {
-        return Integer.parseInt(newSentence) * count * 3;
+      return Integer.parseInt(newSentence) * count * HASH_MULTIPLIER;
     }
 
     /**
@@ -163,7 +169,7 @@ class CustomFileReader {
      */
     @Override
     public boolean equals(final Object object) {
-        if (object == null){
+        if (object == null) {
             return false;
         }
 
@@ -181,7 +187,7 @@ class CustomFileReader {
             return false;
         }
 
-        return comparedReader.getPath() == path;
+        return Objects.equals(comparedReader.getPath(), path);
     }
 }
 
